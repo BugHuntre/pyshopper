@@ -1,8 +1,8 @@
 # services/user_service.py
 import json
-from config import USERS_FILE
-from user import UserAccount
-from cart import Cart
+from Backend.config import USERS_FILE
+from Backend.user import UserAccount
+from Backend.cart import Cart
 
 class UserService:
     @staticmethod

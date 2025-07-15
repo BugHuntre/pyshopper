@@ -1,12 +1,12 @@
 # cart_routes.py
 from flask import Flask, Blueprint, request, jsonify , send_from_directory
-from models import db, CartItem
+from Backend.models import db, CartItem
 from datetime import datetime
 import os
-from models import db,CartItem,Order, OrderItem
-from utils import export_receipt
-from config import RECEIPT_DIR
-from config import BASE_DIR
+from Backend.models import db,CartItem,Order, OrderItem
+from Backend.utils import export_receipt
+from Backend.config import RECEIPT_DIR
+from Backend.config import BASE_DIR
 from flask_cors import CORS
 RECEIPT_DIR = os.path.join(BASE_DIR, "receipts")
 os.makedirs(RECEIPT_DIR, exist_ok=True)

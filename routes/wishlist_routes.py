@@ -1,7 +1,7 @@
 # routes/wishlist_routes.py
 
 from flask import Blueprint, request, jsonify
-from models import db, WishlistItem, CartItem
+from Backend.models import db, WishlistItem, CartItem
 
 wishlist_bp = Blueprint("wishlist", __name__)
 

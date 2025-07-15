@@ -1,7 +1,7 @@
 # services/receipt_service.py
 import os
 import datetime
-from config import BASE_DIR
+from Backend.config import BASE_DIR
 
 RECEIPT_DIR = os.path.join(BASE_DIR, "receipts")
 os.makedirs(RECEIPT_DIR, exist_ok=True)

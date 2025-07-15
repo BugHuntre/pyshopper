@@ -1,7 +1,7 @@
 # routes/catalog_routes.py
 
 from flask import Blueprint, jsonify
-from models import Product
+from Backend.models import Product
 from Services.catalog_service import CatalogService
 
 catalog_bp = Blueprint("catalog", __name__)

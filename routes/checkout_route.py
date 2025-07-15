@@ -3,8 +3,8 @@
 from flask import Blueprint, request, jsonify, send_from_directory
 from datetime import datetime
 import os
-from models import db, CartItem, Order, OrderItem
-from config import BASE_DIR
+from Backend.models import db, CartItem, Order, OrderItem
+from Backend.config import BASE_DIR
 from Services.reciept_service import ReceiptService
 from Services.order_service import OrderService
 

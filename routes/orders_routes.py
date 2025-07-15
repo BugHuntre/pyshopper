@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from models import Order, OrderItem
+from Backend.models import Order, OrderItem
 from Services.order_service import OrderService
 
 order_bp = Blueprint("order", __name__)

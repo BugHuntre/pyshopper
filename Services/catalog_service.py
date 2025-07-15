@@ -1,6 +1,6 @@
 # services/catalog_service.py
 import json
-from config import CATALOG_FILE
+from Backend.config import CATALOG_FILE
 
 class CatalogService:
     @staticmethod
