@@ -1,5 +1,5 @@
 from getpass import getpass
-from cart import Cart
+from Backend.cart import Cart
 from utils import save_users_to_file
 
 class UserAccount:
