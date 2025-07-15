@@ -2,10 +2,10 @@ import datetime
 import os
 import json
 from getpass import getpass
-from config import USERS_FILE, ORDERS_FILE, CATALOG_FILE, ADMIN_EMAIL, ADMIN_PASSWORD
-from items import Item, PhysicalItem, DigitalItem
-from cart import Cart
-from user import UserAccount
+from Backend.config import USERS_FILE, ORDERS_FILE, CATALOG_FILE, ADMIN_EMAIL, ADMIN_PASSWORD
+from Backend.items import Item, PhysicalItem, DigitalItem
+from Backend.cart import Cart
+from Backend.user import UserAccount
 from Backend.utils import (
     save_users_to_file,
     load_users_from_file,

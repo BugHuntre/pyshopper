@@ -1,3 +1,3 @@
-from utils import load_catalog
+from Backend.utils import load_catalog
 
 catalog = load_catalog()

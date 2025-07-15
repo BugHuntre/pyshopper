@@ -1,8 +1,8 @@
 from items import Item,DigitalItem,PhysicalItem
 import datetime
 import os
-from utils import save_order_to_history
-from config import BASE_DIR
+from Backend.utils import save_order_to_history
+from Backend.config import BASE_DIR
 class Cart:
     def __init__(self):
         self.items = []
