@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Laptop",
+    "price": 50000,
+    "type": "physical",
+    "shipping_weight": 2.5
+  },
+  {
+    "name": "E-Book",
+    "price": 300,
+    "type": "digital",
+    "file_size_mb": 5
+  },
+  {
+    "name": "Keyboard",
+    "price": 1000,
+    "type": "physical",
+    "shipping_weight": 0.7
+  }
+]
