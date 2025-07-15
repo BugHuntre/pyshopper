@@ -1,6 +1,6 @@
 import json
 from app import app, db
-from models import Product  # adjust if needed
+from Backend.models import Product  # adjust if needed
 
 # Load catalog.json data
 with open('catalog.json', 'r') as f:

@@ -1,9 +1,9 @@
 import json
 import os
-from config import USERS_FILE,ORDERS_FILE,CATALOG_FILE
+from Backend.config import USERS_FILE,ORDERS_FILE,CATALOG_FILE
 import datetime
 import os
-from config import BASE_DIR
+from Backend.config import BASE_DIR
 RECEIPT_DIR = os.path.join(BASE_DIR, "receipts")
 os.makedirs(RECEIPT_DIR, exist_ok=True)
 
