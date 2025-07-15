@@ -1,16 +1,14 @@
 import React from 'react';
-import axios from 'axios';
 import { Card, Button, ListGroup, Alert, ButtonGroup } from 'react-bootstrap';
-
-const BASE_URL = 'http://127.0.0.1:5000';
+import {
+  moveWishlistItemToCart,
+  removeItemFromWishlist
+} from './api';
 
 function Wishlist({ email, wishlist, refreshCart, refreshWishlist }) {
-  const moveToCart = async (item_name) => {
+  const moveToCart = async (itemName) => {
     try {
-      await axios.post(`${BASE_URL}/wishlist/move-to-cart`, {
-        email,
-        item_name,
-      });
+      await moveWishlistItemToCart(email, itemName);
       refreshCart();
       refreshWishlist();
     } catch {
@@ -18,12 +16,9 @@ function Wishlist({ email, wishlist, refreshCart, refreshWishlist }) {
     }
   };
 
-  const removeFromWishlist = async (item_name) => {
+  const removeFromWishlist = async (itemName) => {
     try {
-      await axios.post(`${BASE_URL}/wishlist/remove`, {
-        email,
-        item_name,
-      });
+      await removeItemFromWishlist(email, itemName);
       refreshWishlist();
     } catch {
       alert('❌ Failed to remove item from wishlist');

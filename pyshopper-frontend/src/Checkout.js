@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Container, Spinner, Alert, Button, Card } from 'react-bootstrap';
+import { checkoutCart, getReceiptDownloadUrl } from './api';
 
-const BASE_URL = 'http://127.0.0.1:5000';
 
 function Checkout() {
   const [receipt, setReceipt] = useState('');
@@ -13,24 +12,26 @@ function Checkout() {
   const email = localStorage.getItem('email');
 
   useEffect(() => {
-    const doCheckout = async () => {
-      try {
-        const res = await axios.post(`${BASE_URL}/cart/checkout`, { email });
-        setReceipt(res.data.receipt_preview);
-        setFileName(res.data.receipt_file);
-        setLoading(false);
-      } catch (err) {
-        alert(err?.response?.data?.error || '❌ Checkout failed');
-        navigate('/dashboard');
-      }
-    };
+  const doCheckout = async () => {
+  try {
+    const res = await checkoutCart(email);
+    setReceipt(res.data.receipt_preview);
+    setFileName(res.data.receipt_file);
+    setLoading(false);
+  } catch (err) {
+    alert(err?.response?.data?.error || '❌ Checkout failed');
+    navigate('/dashboard');
+  }
+};
 
     doCheckout();
   }, [email, navigate]);
 
-  const handleDownload = () => {
-    window.open(`${BASE_URL}/receipts/${fileName}`, '_blank');
-  };
+const handleDownload = () => {
+  const url = getReceiptDownloadUrl(fileName);
+  window.open(url, '_blank');
+};
+
 
   return (
     <Container className="py-4">

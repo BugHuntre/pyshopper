@@ -1,35 +1,30 @@
 import React from 'react';
-import axios from 'axios';
 import { Card, Button, Row, Col } from 'react-bootstrap';
+import { addItemToCart, addItemToWishlist } from './api';
 
-const BASE_URL = 'http://127.0.0.1:5000';
 
 function Catalog({ email, refreshCart, refreshWishlist, catalog }) {
-  const addToCart = async (item) => {
-    try {
-      await axios.post(`${BASE_URL}/add-to-cart`, {
-        email,
-        item: { ...item, quantity: item.quantity || 1 }
-      });
-      refreshCart();
-    } catch (err) {
-      console.error(err?.response?.data || err.message);
-      alert('Failed to add to cart');
-    }
-  };
+ const addToCart = async (item) => {
+  try {
+    await addItemToCart(email, item);
+    refreshCart();
+  } catch (err) {
+    console.error(err?.response?.data || err.message);
+    alert('Failed to add to cart');
+  }
+};
+
 
   const addToWishlist = async (item) => {
-    try {
-      await axios.post(`${BASE_URL}/wishlist/add`, {
-        email,
-        item: { ...item, quantity: item.quantity || 1 }
-      });
-      refreshWishlist();
-    } catch (err) {
-      console.error(err?.response?.data || err.message);
-      alert('Failed to add to wishlist');
-    }
-  };
+  try {
+    await addItemToWishlist(email, item);
+    refreshWishlist();
+  } catch (err) {
+    console.error(err?.response?.data || err.message);
+    alert('Failed to add to wishlist');
+  }
+};
+
 
   return (
     <div>

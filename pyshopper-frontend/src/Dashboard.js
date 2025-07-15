@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Col, Button, Card } from 'react-bootstrap';
 import Catalog from './Catalog1';
@@ -7,7 +6,11 @@ import Cart from './Cart';
 import Wishlist from './Wishlist';
 import ManualAdd from './ManualAdd';
 
-const BASE_URL = 'http://127.0.0.1:5000';
+import {
+  fetchCatalog,
+  fetchUserCart,
+  fetchUserWishlist
+} from './api';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -25,38 +28,40 @@ function Dashboard() {
     }
   }, [email, role, navigate]);
 
-  const fetchCatalog = useCallback(async () => {
-    try {
-      const res = await axios.get(`${BASE_URL}/catalog`);
-      setCatalog(res.data);
-    } catch {
-      alert('❌ Error fetching catalog');
-    }
-  }, []);
+ const fetchCatalogData = useCallback(async () => {
+  try {
+    const res = await fetchCatalog();
+    setCatalog(res.data);
+  } catch {
+    alert('❌ Error fetching catalog');
+  }
+}, []);
 
-  const fetchCart = useCallback(async () => {
-    try {
-      const res = await axios.get(`${BASE_URL}/cart/${email}`);
-      setCart(res.data.cart || []);
-    } catch {
-      alert('❌ Error fetching cart');
-    }
-  }, [email]);
 
-  const fetchWishlist = useCallback(async () => {
-    try {
-      const res = await axios.get(`${BASE_URL}/wishlist/${email}`);
-      setWishlist(res.data.wishlist || []);
-    } catch {
-      alert('❌ Error fetching wishlist');
-    }
-  }, [email]);
+  const fetchCartData = useCallback(async () => {
+  try {
+    const res = await fetchUserCart(email);
+    setCart(res.data.cart || []);
+  } catch {
+    alert('❌ Error fetching cart');
+  }
+}, [email]);
+
+const fetchWishlistData = useCallback(async () => {
+  try {
+    const res = await fetchUserWishlist(email);
+    setWishlist(res.data.wishlist || []);
+  } catch {
+    alert('❌ Error fetching wishlist');
+  }
+}, [email]);
 
   useEffect(() => {
-    fetchCatalog();
-    fetchCart();
-    fetchWishlist();
-  }, [fetchCatalog, fetchCart, fetchWishlist]);
+    fetchCatalogData();
+  fetchCartData();
+  fetchWishlistData();
+
+  }, [fetchCatalog, fetchCartData, fetchWishlistData]);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -80,8 +85,8 @@ function Dashboard() {
           <Catalog
             email={email}
             catalog={catalog}
-            refreshCart={fetchCart}
-            refreshWishlist={fetchWishlist}
+            refreshCart={fetchCartData}
+            refreshWishlist={fetchWishlistData}
           />
         </Col>
       </Row>
@@ -91,7 +96,7 @@ function Dashboard() {
           <Cart
             email={email}
             cart={cart}
-            refreshCart={fetchCart}
+            refreshCart={fetchCartData}
           />
         </Col>
       </Row>
@@ -101,8 +106,8 @@ function Dashboard() {
           <Wishlist
             email={email}
             wishlist={wishlist}
-            refreshCart={fetchCart}
-            refreshWishlist={fetchWishlist}
+            refreshCart={fetchCartData}
+            refreshWishlist={fetchWishlistData}
           />
         </Col>
       </Row>
@@ -111,7 +116,7 @@ function Dashboard() {
         <Col>
           <ManualAdd
             email={email}
-            refreshCart={fetchCart}
+            refreshCart={fetchCartData}
           />
         </Col>
       </Row>

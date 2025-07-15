@@ -1,24 +1,23 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { Card, Button, ListGroup, Alert } from 'react-bootstrap';
 
-const BASE_URL = 'http://127.0.0.1:5000';
+import { Card, Button, ListGroup, Alert } from 'react-bootstrap';
+import { removeItemFromCart } from './api';
+
+
 
 function Cart({ email, cart, refreshCart }) {
   const navigate = useNavigate();
 
-  const removeFromCart = async (itemName) => {
-    try {
-      await axios.post(`${BASE_URL}/cart/remove-item`, {
-        email,
-        item_name: itemName,
-      });
-      refreshCart();
-    } catch {
-      alert('❌ Failed to remove item');
-    }
-  };
+const removeFromCart = async (itemName) => {
+  try {
+    await removeItemFromCart(email, itemName);
+    refreshCart();
+  } catch {
+    alert('❌ Failed to remove item');
+  }
+};
+
 
   const totalCost = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 

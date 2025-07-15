@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { loginUser, registerUser } from './api';
+
 import {
   Container,
   Form,
@@ -11,7 +12,6 @@ import {
 } from 'react-bootstrap';
 // import { useNavigate } from 'react-router-dom';
 
-const BASE_URL = 'http://127.0.0.1:5000';
 
 function Login() {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -23,53 +23,53 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   // const navigate = useNavigate();
 
-  const handleLogin = async () => {
-    if (!email || !password) {
-      return setError('Email and password required.');
+const handleLogin = async () => {
+  if (!email || !password) {
+    return setError('Email and password required.');
+  }
+
+  try {
+    const res = await loginUser(email, password, userType);
+
+    if (res.status === 200) {
+      const name = res.data?.name || 'User';
+
+      localStorage.setItem('logged_in', 'true');
+      localStorage.setItem('email', email);
+      localStorage.setItem('role', userType);
+      localStorage.setItem('password', password);
+      localStorage.setItem('name', name);
+
+      window.location.href = '/dashboard';
     }
+  } catch (err) {
+    const msg = err?.response?.data?.error || 'Login failed';
+    setError(msg);
+  }
+};
 
-    const endpoint = userType === 'admin' ? '/admin/login' : '/login';
 
-    try {
-      const res = await axios.post(`${BASE_URL}${endpoint}`, { email, password });
+const handleRegister = async () => {
+  if (!name || !email || !password) {
+    return setError('All fields required for registration.');
+  }
 
-      if (res.status === 200) {
-        const name = res.data?.name || 'User';
-
-        localStorage.setItem('logged_in', 'true');
-        localStorage.setItem('email', email);
-        localStorage.setItem('role', userType);
-        localStorage.setItem('password', password);
-        localStorage.setItem('name', name);
-
-        window.location.href = '/dashboard';
-      }
-    } catch (err) {
-      const msg = err?.response?.data?.error || 'Login failed';
-      setError(msg);
+  try {
+    const res = await registerUser(name, email, password);
+    if (res.status === 200) {
+      alert('✅ Registered successfully. Please log in.');
+      setIsRegistering(false);
+      setName('');
+      setEmail('');
+      setPassword('');
+      setError('');
     }
-  };
+  } catch (err) {
+    const msg = err?.response?.data?.error || 'Registration failed';
+    setError(msg);
+  }
+};
 
-  const handleRegister = async () => {
-    if (!name || !email || !password) {
-      return setError('All fields required for registration.');
-    }
-
-    try {
-      const res = await axios.post(`${BASE_URL}/register`, { name, email, password });
-      if (res.status === 200) {
-        alert('✅ Registered successfully. Please log in.');
-        setIsRegistering(false);
-        setName('');
-        setEmail('');
-        setPassword('');
-        setError('');
-      }
-    } catch (err) {
-      const msg = err?.response?.data?.error || 'Registration failed';
-      setError(msg);
-    }
-  };
 
   return (
     <Container className="mt-5" style={{ maxWidth: '500px' }}>

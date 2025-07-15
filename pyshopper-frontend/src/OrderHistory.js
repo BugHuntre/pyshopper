@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { Container, Spinner, Alert, Card, Button } from 'react-bootstrap';
+import { fetchOrderHistory, getReceiptDownloadUrl } from './api';
 
-const BASE_URL = 'http://127.0.0.1:5000';
 
 function OrderHistory() {
   const [orders, setOrders] = useState([]);
@@ -10,17 +9,18 @@ function OrderHistory() {
   const email = localStorage.getItem('email');
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const res = await axios.get(`${BASE_URL}/orders/${email}`);
-        setOrders(res.data.orders || []);
-      } catch (err) {
-        console.error('Failed to fetch orders:', err);
-        alert('Failed to load order history.');
-      } finally {
-        setLoading(false);
-      }
-    };
+const fetchOrders = async () => {
+  try {
+    const res = await fetchOrderHistory(email);
+    setOrders(res.data.orders || []);
+  } catch (err) {
+    console.error('Failed to fetch orders:', err);
+    alert('Failed to load order history.');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
     fetchOrders();
   }, [email]);
@@ -54,7 +54,7 @@ function OrderHistory() {
               <Button
                 variant="outline-primary"
                 size="sm"
-                onClick={() => window.open(`${BASE_URL}/receipts/${order.receipt_file}`, '_blank')}
+                onClick={() => window.open(getReceiptDownloadUrl(order.receipt_file), '_blank')}
               >
                 📥 Download Receipt
               </Button>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Card, Form, Button, Alert } from 'react-bootstrap';
+import { addManualItemToCart } from './api';
 
-const BASE_URL = 'http://127.0.0.1:5000';
+
 
 function ManualAdd({ email, refreshCart }) {
   const [item, setItem] = useState({
@@ -30,10 +30,7 @@ function ManualAdd({ email, refreshCart }) {
     }
 
     try {
-      await axios.post(`${BASE_URL}/add-to-cart`, {
-        email,
-        item: payload,
-      });
+      await addManualItemToCart(email, payload);
 
       refreshCart();
       setItem({
